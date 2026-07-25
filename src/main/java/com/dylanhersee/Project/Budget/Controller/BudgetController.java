@@ -7,12 +7,37 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dylanhersee.Project.User.model.User;
 
 @RestController
+@RequestMapping("/api/budget")
 public class BudgetController{
 
-    @GetMapping
-   public User getUser(@RequestParam String firebaseId) {
-    return null;
-   }
+    @Autowired
+    private BudgetService budgetService;
+
+    @PostMapping("/create")
+    public ResponseEntity<Budget> createBudget(@RequestBody Budget budget){
+
+        Budget newBudget = budgetService.createBudget(budget);
+
+        return ResponseEntity.ok(newBudget);
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<Budget> getBudget(@RequestParam String username){
+
+       List<Budget> budgets = budgetService.getBudget(username);
+
+        return ResponseEntity.ok(budgets);
+        
+
+    }
+
+    @PutMapping("/alter")
+    public ResponseEntity<Budget> alterBudget(@PathVariable Long id, @RequestBody Budget budget){
+        Budget update = budgetService.updateBudget(id, budget);
+        return ResponseEntity.ok(update);
+
+    }
+
     
 }
 
