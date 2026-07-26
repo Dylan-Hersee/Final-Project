@@ -1,18 +1,23 @@
 package com.dylanhersee.Project.Budget.Service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.dylanhersee.Project.Budget.Repository.BudgetRepository;
+import com.dylanhersee.Project.Budget.model.Budget;
 
 @Service
 public class BudgetService {
-/*
+
+
     @Autowired
     private BudgetRepository budgetRepository;
 
-    public Budget createBudget(String firebaseId, String eventName, String eventType, double budget){
-        Budget newBudget = new Budget(firebaseId, eventName, eventType, budget);
-        budgetRepository.save(newBudget);
-        
-        return newBudget;
+
+    public Budget createBudget(Budget budget) {
+       
     }
 
 
@@ -31,15 +36,18 @@ public class BudgetService {
         
     }
 
-    public Budget updateBudget(String firebaseId, String eventName, String eventType, double budget, double purchase, String purchaseName, String category){
-        
-    }
 
     public List<Budget> getAllBudgets(){
         
     }
 
-    public Budget getBudget(){
+    public Budget getBudget(String username, String username){
         
-    }*/
-}
+    }
+
+    public Budget updateBudget(Long id, Budget budget) {
+      
+    }
+
+} 
+

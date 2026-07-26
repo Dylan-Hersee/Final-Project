@@ -1,15 +1,20 @@
 package com.dylanhersee.Project.User.Controller;
 
-import java.util.List;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.ArrayList;
+
+import java.util.Optional;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import com.dylanhersee.Project.User.Service.UserService;
 import com.dylanhersee.Project.User.model.User;
 
@@ -18,16 +23,9 @@ import com.dylanhersee.Project.User.model.User;
 @RequestMapping("/api/user")
 public class UserController {
 
-   
+   @Autowired
    private UserService userService;
 
-    @Autowired
-    private UserController(UserService userService){
-        this.userService = userService;
-    }
-
-
-    private List<User> usersList;
 
     @GetMapping("/health")
     public String health(){
@@ -38,12 +36,12 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user){
 
         User newUser = userService.createUser(
-            user.getUsername();
-            user.getFirstName();
-            user.getSecondName();
-            user.getDOB();
-            user.getEmail();
-        )
+            user.getUsername(),
+            user.getFirstName(),
+            user.getSecondName(),
+            user.getDOB(),
+            user.getEmail()
+        );
 
         return ResponseEntity.ok(newUser);
     }
@@ -59,7 +57,7 @@ public class UserController {
     }
 
     @PutMapping("/alter")
-    public ResponseEntity<User> alterUser(@PathVariable String username, @RequestBody updateUser){
+    public ResponseEntity<User> alterUser(@PathVariable String username, @RequestBody String updateUser){
         User user = userService.updateUser(username, updateUser);
         return ResponseEntity.ok(user);
 

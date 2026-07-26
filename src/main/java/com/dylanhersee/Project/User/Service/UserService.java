@@ -22,14 +22,24 @@ public class UserService {
     }  
 
     public Optional<User> getUser(String username) {
-       Optional<User> optionalUser = Optional.empty();
-        for (User user : userList) {
-            if (username == user.getUsername()) {
-                optionalUser = Optional.of(user);
-                return optionalUser;
-            }
-        }
-        return optionalUser;
+        return null;
+      
     }
 
+    public User createUser(String username) {
+        
+    }
+
+    public void deleteUser(Long id) {
+        
+    }
+
+    public User updateUser(String username, String updateUser) {
+      
+    }
+
+    public User createUser(String username, String firstName, String secondName, String dob, String email) {
+
+
+    }
 }

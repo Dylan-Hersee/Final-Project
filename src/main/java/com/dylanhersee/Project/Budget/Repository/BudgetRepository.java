@@ -11,5 +11,6 @@ import com.dylanhersee.Project.Budget.model.Budget;
 @Repository
 public interface BudgetRepository extends JpaRepository<Budget, Long>{
 List<Budget> findByUsername(String username);
+List<Budget> findByUsernameAndEventName(String username, String eventName);
 
 }

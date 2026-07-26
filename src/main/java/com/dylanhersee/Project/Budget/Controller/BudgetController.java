@@ -1,10 +1,20 @@
 package com.dylanhersee.Project.Budget.Controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dylanhersee.Project.User.model.User;
+import com.dylanhersee.Project.Budget.Service.BudgetService;
+import com.dylanhersee.Project.Budget.model.Budget;
 
 @RestController
 @RequestMapping("/api/budget")
@@ -22,9 +32,9 @@ public class BudgetController{
     }
 
     @GetMapping("/get")
-    public ResponseEntity<Budget> getBudget(@RequestParam String username){
+    public ResponseEntity<List<Budget>> getBudget(@RequestParam String username){
 
-       List<Budget> budgets = budgetService.getBudget(username);
+       List<Budget> budgets = (List<Budget>) budgetService.getBudget(username);
 
         return ResponseEntity.ok(budgets);
         
