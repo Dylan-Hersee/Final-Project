@@ -9,4 +9,6 @@ import com.dylanhersee.Project.Checklist.model.Checklist;
 public interface ChecklistRepository extends JpaRepository<Checklist, Long>{
     List<Checklist> findByUsername (String username);
     List<Checklist> findByUsernameAndEventName(String username, String eventName);
+
+    void deleteByUsername(String username);
 }

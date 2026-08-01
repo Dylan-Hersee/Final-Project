@@ -13,4 +13,6 @@ public interface  GuestlistRepository extends JpaRepository<Guestlist, Long>{
     
     List<Guestlist> findByUsername(String username);
     List<Guestlist> findByUsernameAndEventName(String username, String eventName);
+
+    void deleteByUsername(String username);
 }

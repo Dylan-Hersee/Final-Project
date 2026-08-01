@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.dylanhersee.Project.User.Controller.UserController;
 import com.dylanhersee.Project.User.Repository.UserRepository;
 import com.dylanhersee.Project.User.model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,8 +27,8 @@ public class UserService {
 
     }  
 
-     public User createUser(String username, String firstName, String secondName, String DOB, String email) throws FirebaseAuthException {
-        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(username);
+     public User createUser(String firebaseToken, String username, String firstName, String secondName, String DOB, String email) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
             String firebaseUid = decodedToken.getUid();
 
             try{
@@ -45,18 +46,16 @@ public class UserService {
                     );
                     return userRepository.save(user);
                 } 
-            } catch(FirebaseAuthExeption e){
-                throw new RuntimeException("Unauthorised Access" + e.getMessage());
             }catch(Exception e){
-                throw new RuntimeException("Error creating User" + e.getMessage);
+                throw new RuntimeException("Error creating User" + e.getMessage());
             }
             
     }
     
 
-    public Optional<User> getUser(String username) {
+    public Optional<User> getUser(String username, String firebaseToken) throws FirebaseAuthException {
         try{
-            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(username);
+            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
             String firebaseUid = decodedToken.getUid();
 
             if(!firebaseUid.equals(username)){
@@ -77,14 +76,71 @@ public class UserService {
       
     }
 
-    public void deleteUser(Long id, String username) throws FirebaseAuthException {
-        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(username);
+
+    public void deleteUser(String username, String firebaseToken) throws FirebaseAuthException {
+        
+        try{
+            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
             String firebaseUid = decodedToken.getUid();
+
+                if(!firebaseUid.equals(username)){
+                    throw new RuntimeException("Unauthorised Access");
+                }
+
+                if(userRepository.findByUsername(username) == null){
+                    throw new RuntimeException("Username not Found");
+                }
+
+                User currentUser = userRepository.findByUsername(username);
+
+                userRepository.deleteById(currentUser.getId());
+
+
+            } catch(FirebaseAuthException e){
+                throw new RuntimeException("User Not Found" + e.getMessage());
+            }
     }
 
-    public User updateUser(String username, String updateUser) throws FirebaseAuthException {
-      FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(username);
+    public User updateUser(String username, String firebaseToken, User updateUser) throws FirebaseAuthException {
+        try{
+      FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
             String firebaseUid = decodedToken.getUid();
+            
+
+            if(!firebaseUid.equals(username)){
+                throw new RuntimeException("Unauthorised Access");
+            }
+
+
+            if(userRepository.findByUsername(username) == null){
+                throw new RuntimeException ("Username not found!");
+            }
+
+            User currentUser = userRepository.findByUsername(username);
+             
+            if(updateUser.getUsername()!= null){
+                currentUser.setUsername(updateUser.getUsername());
+            }
+
+            if(updateUser.getFirstName()!= null){
+                currentUser.setFirstName(updateUser.getFirstName());
+            }
+
+            if(updateUser.getSecondName()!= null){
+                currentUser.setSecondName(updateUser.getSecondName());
+            }
+            if(updateUser.getDOB()!= null){
+                currentUser.setDOB(updateUser.getDOB());
+            }
+            if(updateUser.getEmail()!= null){
+                currentUser.setEmail(updateUser.getEmail());
+            }
+
+            return userRepository.save(currentUser);
+            
+        }catch(FirebaseAuthException e){
+            throw new RuntimeException("Error verifying ID token: " + e.getMessage());
+        } 
     }
 
 }
