@@ -34,7 +34,7 @@ public class BudgetController{
     @GetMapping("/get")
     public ResponseEntity<List<Budget>> getBudget(@RequestParam String username){
 
-       List<Budget> budgets = (List<Budget>) budgetService.getBudget(username);
+       List<Budget> budgets = budgetService.getBudget(username);
 
         return ResponseEntity.ok(budgets);
         

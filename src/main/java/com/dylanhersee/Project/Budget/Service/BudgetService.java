@@ -49,5 +49,11 @@ public class BudgetService {
       
     }
 
+
+    public List<Budget> getBudget(String username) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getBudget'");
+    }
+
 } 
 
