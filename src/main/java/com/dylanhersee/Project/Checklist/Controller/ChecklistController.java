@@ -49,5 +49,10 @@ public class ChecklistController {
 
     }
 
+    public Boolean isDue(@RequestParam String username, @RequestParam String firebaseToken, @RequestParam Long id) throws FirebaseAuthException {
+        return localDate.plusDays(7).isAfter(checklist.getDueDate());
+    }
+
+
     
 }

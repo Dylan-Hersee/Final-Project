@@ -24,7 +24,7 @@ public class BudgetController{
     private BudgetService budgetService;
 
     @PostMapping("/create")
-    public ResponseEntity<Budget> createBudget(@RequestBody Budget budget){
+    public ResponseEntity<Budget> createBudget(@RequestBody Budget budget, @RequestParam String username, @RequestParam String eventName, @RequestParam String eventType){
 
         Budget newBudget = budgetService.createBudget(budget);
 

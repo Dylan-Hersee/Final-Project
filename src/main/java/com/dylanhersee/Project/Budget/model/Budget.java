@@ -24,7 +24,7 @@ public class Budget {
     private String purchaseName;
     private String category;
 
-    public Budget(double budget, String username. String eventName, String eventType){
+    public Budget(double budget, String username, String eventName, String eventType){
         this.budget = budget;
         this.username = username;
         this.eventName = eventName;
@@ -48,10 +48,6 @@ public class Budget {
 
 	public double getBudget(){
         return budget;
-    }
-
-    public double getUpdate(){
-        return updateBudget;
     }
 
     public double getPurchase(){

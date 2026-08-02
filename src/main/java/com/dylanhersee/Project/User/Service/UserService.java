@@ -27,7 +27,7 @@ public class UserService {
 
     }  
 
-     public User createUser(String firebaseToken, String username, String firstName, String secondName, String DOB, String email) throws FirebaseAuthException {
+     public User createUser(String firebaseToken, String username, String firstName, String secondName, String DOB, String email, String request) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
             String firebaseUid = decodedToken.getUid();
 
@@ -38,11 +38,11 @@ public class UserService {
 
                 else{
                     User user = new User(
-                        firebaseUid, 
-                        firstName,
+                        username, 
+                        firstName, 
                         secondName,
-                        DOB,  
-                        email 
+                        DOB, 
+                        email
                     );
                     return userRepository.save(user);
                 } 
@@ -111,6 +111,8 @@ public class UserService {
                 throw new RuntimeException("Unauthorised Access");
             }
 
+            
+            
 
             if(userRepository.findByUsername(username) == null){
                 throw new RuntimeException ("Username not found!");

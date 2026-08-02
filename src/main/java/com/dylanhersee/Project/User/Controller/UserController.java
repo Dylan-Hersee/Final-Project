@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<User> createUser(@RequestBody User user){
+    public ResponseEntity<User> createUser(@RequestBody User user, @RequestParam firebaseToken){
 
         User newUser = userService.createUser(
             user.getUsername(),
