@@ -19,11 +19,11 @@ public class User {
     @Column(unique = true)
 
     private Long id;
-    private String username = "";
-    private String DOB = "";
-    private String firstName = "";
-    private String secondName = "";
-    private String email = "";
+    private String username;
+    private String DOB;
+    private String firstName;
+    private String secondName;
+    private String email;
    
 
     public User(String username, String firstName, String secondName, String DOB, String email){

@@ -18,32 +18,33 @@ public class Budget {
     
     private String username;
     private double budget;
-    private double updateBudget;
     private double purchase;
     private String eventName;
     private String eventType;
     private String purchaseName;
     private String category;
 
-    public Budget(double budget, double updateBudget, double purchase, String eventName, String eventType, 
-                  String purchaseName, String category){
+    public Budget(double budget, String username. String eventName, String eventType){
         this.budget = budget;
-        this.updateBudget = updateBudget;
-        this.purchase = purchase;
+        this.username = username;
         this.eventName = eventName;
         this.eventType = eventType;
+    }
+
+    public void setPurchase(double purchase){
+        this.purchase = purchase;
+    }
+
+    public void setPurchaseName(String purchaseName){
         this.purchaseName = purchaseName;
+    }
+
+    public void setCategory(String category){
         this.category = category;
     }
-
-    public Budget(String firebaseId, String eventName2, String eventType2, double budget2) {
-        //TODO Auto-generated constructor stub
+    public String getUsername(){
+        return username;
     }
-
-    public Budget(String firebaseId, String eventName2, String eventType2, double purchase2, String purchaseName2,
-			String category2) {
-		//TODO Auto-generated constructor stub
-	}
 
 	public double getBudget(){
         return budget;
