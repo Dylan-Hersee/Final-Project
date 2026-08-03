@@ -13,8 +13,7 @@ public class Budget {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
-    private long id;
+    private Long id;
     
     private String username;
     private double budget;
@@ -24,11 +23,25 @@ public class Budget {
     private String purchaseName;
     private String category;
 
-    public Budget(double budget, String username, String eventName, String eventType){
-        this.budget = budget;
+    //Setters
+    public Budget(String username, String eventName, String eventType, double budget, double purchase, String purchaseName, String category) {
+   
+    }
+
+    public void setUsername(String username){
         this.username = username;
+    }
+
+    public void setEventName(String eventName){
         this.eventName = eventName;
+    }
+
+    public void setEventType(String eventType){
         this.eventType = eventType;
+    }
+
+    public void setBudget(double budget){
+        this.budget = budget;
     }
 
     public void setPurchase(double purchase){
@@ -68,5 +81,20 @@ public class Budget {
 
     public String getCategory(){
         return category;
+    }
+
+    public void createBudget() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public boolean isEmpty() {
+        if (budget == 0.0 && purchase == 0.0 && purchaseName == null && category == null) {
+            return true;
+        }
+        return false;
     }
 }

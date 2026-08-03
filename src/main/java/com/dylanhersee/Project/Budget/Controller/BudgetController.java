@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dylanhersee.Project.Budget.Service.BudgetService;
 import com.dylanhersee.Project.Budget.model.Budget;
+import com.google.firebase.auth.FirebaseAuthException;
 
 @RestController
 @RequestMapping("/api/budget")
@@ -24,19 +25,19 @@ public class BudgetController{
     private BudgetService budgetService;
 
     @PostMapping("/create")
-    public ResponseEntity<Budget> createBudget(@RequestBody Budget budget, @RequestParam String username, @RequestParam String eventName, @RequestParam String eventType){
+    public ResponseEntity<Budget> createBudget(@RequestBody Budget budget, @RequestParam String username, @RequestParam String eventName, @RequestParam String eventType) throws FirebaseAuthException{
 
-        Budget newBudget = budgetService.createBudget(budget);
+        Budget newBudget = budgetService.createBudget(username, username, budget);
 
         return ResponseEntity.ok(newBudget);
     }
 
     @GetMapping("/get")
-    public ResponseEntity<List<Budget>> getBudget(@RequestParam String username){
+    public ResponseEntity<Budget> getBudget(@RequestParam String username, @RequestParam Long id) throws FirebaseAuthException{
 
-       List<Budget> budgets = budgetService.getBudget(username);
+       Budget budget = budgetService.getBudget(username, username, id);
 
-        return ResponseEntity.ok(budgets);
+        return ResponseEntity.ok(budget);
         
 
     }

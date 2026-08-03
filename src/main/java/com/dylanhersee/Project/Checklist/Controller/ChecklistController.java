@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dylanhersee.Project.Checklist.Service.ChecklistService;
 import com.dylanhersee.Project.Checklist.model.Checklist;
+import com.google.firebase.auth.FirebaseAuthException;
 
 @RestController
 @RequestMapping("/api/checklist")
@@ -25,17 +26,17 @@ public class ChecklistController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<Checklist> createChecklist(@RequestBody Checklist checklist){
+    public ResponseEntity<Checklist> createChecklist(@RequestBody Checklist checklist, @RequestParam String username, @RequestParam String eventName, @RequestParam String eventType) throws FirebaseAuthException{
 
-        Checklist newChecklist = checklistService.createChecklist(checklist);
+        Checklist newChecklist = checklistService.createChecklist(username, username, checklist);
 
         return ResponseEntity.ok(newChecklist);
     }
 
     @GetMapping("/get")
-    public ResponseEntity<List<Checklist>> getChecklist(@RequestParam String username){
+    public ResponseEntity<Checklist> getChecklist(@RequestParam String username, @RequestParam Long id ) throws FirebaseAuthException{
 
-       List<Checklist> checklist = checklistService.getChecklist(username);
+       Checklist checklist = checklistService.getChecklist(username, username, id);
 
         return ResponseEntity.ok(checklist);
         
