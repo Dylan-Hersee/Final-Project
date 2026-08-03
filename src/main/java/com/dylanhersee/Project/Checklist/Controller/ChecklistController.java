@@ -1,6 +1,7 @@
 package com.dylanhersee.Project.Checklist.Controller;
 
-import java.util.List;
+
+import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class ChecklistController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<Checklist> getChecklist(@RequestParam String username, @RequestParam Long id ) throws FirebaseAuthException{
+    public ResponseEntity<Checklist> getChecklist(@RequestParam String username, @PathVariable Long id ) throws FirebaseAuthException{
 
        Checklist checklist = checklistService.getChecklist(username, username, id);
 
@@ -44,14 +45,14 @@ public class ChecklistController {
     }
 
     @PutMapping("/alter")
-    public ResponseEntity<Checklist> alterChecklist(@PathVariable Long id, @RequestBody Checklist checklist){
-        Checklist update = checklistService.updateChecklist(id, checklist);
+    public ResponseEntity<Checklist> alterChecklist(@PathVariable Long id, @RequestParam String username, @RequestBody Checklist checklist) throws FirebaseAuthException{
+        Checklist update = checklistService.updateChecklist(id, username, username, checklist);
         return ResponseEntity.ok(update);
 
     }
 
-    public Boolean isDue(@RequestParam String username, @RequestParam String firebaseToken, @RequestParam Long id) throws FirebaseAuthException {
-        return localDate.plusDays(7).isAfter(checklist.getDueDate());
+    public Boolean isDue(LocalDate dueDate) throws FirebaseAuthException {
+        return LocalDate.now().plusDays(7).isAfter(dueDate);
     }
 
 

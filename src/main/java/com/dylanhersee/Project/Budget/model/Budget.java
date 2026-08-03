@@ -24,7 +24,7 @@ public class Budget {
     private String category;
 
     //Setters
-    public Budget(String username, String eventName, String eventType, double budget, double purchase, String purchaseName, String category) {
+    public Budget() {
    
     }
 
@@ -55,6 +55,12 @@ public class Budget {
     public void setCategory(String category){
         this.category = category;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    //Getters
     public String getUsername(){
         return username;
     }
@@ -92,9 +98,6 @@ public class Budget {
     }
 
     public boolean isEmpty() {
-        if (budget == 0.0 && purchase == 0.0 && purchaseName == null && category == null) {
-            return true;
-        }
         return false;
     }
 }

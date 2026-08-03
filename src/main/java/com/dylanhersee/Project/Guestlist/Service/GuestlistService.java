@@ -44,7 +44,7 @@ public class GuestlistService {
         
     }
 
-    public Guestlist addGuestlist(String username, Long id, Guestlist guestlist, String firebaseToken) throws FirebaseAuthException{
+    public Guestlist updateGuestlist(String username, Long id, Guestlist guestlist, String firebaseToken) throws FirebaseAuthException{
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
        String firebaseUid = decodedToken.getUid();
 
@@ -94,5 +94,7 @@ public class GuestlistService {
 
         currentGuest.setGuestRSVP(guestlist.isGuestRSVP());
         currentGuest.setRsvpSent(guestlist.isRsvpSent());
+
+        return guestlistRepository.save(currentGuest).isGuestRSVP();
     }
 }

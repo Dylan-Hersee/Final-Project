@@ -68,24 +68,25 @@ public class ChecklistService {
         
     }
 
-    public Checklist updateChecklist(String username, String firebaseToken, Checklist checklist, Checklist newItem) throws FirebaseAuthException {
+    public Checklist updateChecklist(Long id, String username, String firebaseToken, Checklist checklist) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
        String firebaseUid = decodedToken.getUid();
         if(!firebaseUid.equals(username)){
             throw new RuntimeException("Unauthorised Access");
         }
 
-        Checklist currentItem = checklistRepository.findById(checklist.findById()).orElseThrow(() -> new RuntimeException("item not found"));
+        Checklist currentItem = checklistRepository.findById(id).orElseThrow(() -> new RuntimeException("item not found"));
+        
 
-        if(newItem.getTarget() != null){
-            currentItem.setTarget(newItem.getTarget());
+        if(checklist.getTarget() != null){
+            currentItem.setTarget(checklist.getTarget());
         }
 
-        if(newItem.getDueDate() != null){
-            currentItem.setDueDate(newItem.getDueDate());
+        if(checklist.getDate() != null){
+            currentItem.setDate(checklist.getDate());
         }
 
-        currentItem.setCompleted(newItem.isCompleted());
+        currentItem.setCompleted(checklist.isCompleted());
 
         return checklistRepository.save(currentItem);
     }

@@ -46,7 +46,7 @@ public class UserService {
                     );
                     return userRepository.save(user);
                 } 
-            }catch(Exception e){
+            }catch(RuntimeException e){
                 throw new RuntimeException("Error creating User" + e.getMessage());
             }
             

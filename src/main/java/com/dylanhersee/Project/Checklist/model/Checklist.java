@@ -29,16 +29,47 @@ public class Checklist {
     private Long prevTarget;
     private Long nextTarget;
 
-    public Checklist(String username, String eventName, String target, LocalDate date, String timeframe, boolean completed, Long prevTarget, Long nextTarget) {
+    //Setters
+    public Checklist() {
+   
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setEventName(String eventName) {
         this.eventName = eventName;
+    }
+
+    public void setTarget(String target) {
         this.target = target;
+    }
+
+    public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public void setTimeframe(String timeframe) {
         this.timeframe = timeframe;
+    }
+
+    public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public void setPrevTarget(Long prevTarget) {
         this.prevTarget = prevTarget;
+    }
+
+    public void setNextTarget(Long nextTarget) {
         this.nextTarget = nextTarget;
     }
+
+    //getters
 
     public String getUsername() {
         return username;
@@ -72,22 +103,9 @@ public class Checklist {
         return nextTarget;
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public Long getId() {
+        return id;
     }
-
-    public void setDueDate(LocalDate date) {
-        this.date = date;
-    }
-    
-    public void setPrevTarget(Long prevTarget) {
-        this.prevTarget = prevTarget;
-    }  
-    
-    public void setNextTarget(Long nextTarget) {
-        this.nextTarget = nextTarget;
-    }
-
 
 
 }

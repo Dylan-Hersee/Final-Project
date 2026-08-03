@@ -28,10 +28,21 @@ public class Guestlist {
 
 
     //Setters
-    public Guestlist(String username, String eventName) {
+    public Guestlist() {
+       
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setEventName(String eventName) {
         this.eventName = eventName;
     }
+
     public void setGuestName(String guestName) {
         this.guestName = guestName;
     }
@@ -80,6 +91,10 @@ public class Guestlist {
 
     public void setRsvpSent(boolean rsvpSent) {
         this.rsvpSent = rsvpSent;
+    }
+
+    public Long getId() {
+        return id;
     }
 
    

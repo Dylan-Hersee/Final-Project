@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dylanhersee.Project.Guestlist.Service.GuestlistService;
 import com.dylanhersee.Project.Guestlist.model.Guestlist;
+import com.google.firebase.auth.FirebaseAuthException;
 
 @RestController
 @RequestMapping("/api/guestlist")
@@ -24,26 +25,26 @@ public class GuestlistController {
     private GuestlistService guestlistService;
     
     @PostMapping("/create")
-    public ResponseEntity<Guestlist> createGuestlist(@RequestBody Guestlist guestlist){
+    public ResponseEntity<Guestlist> createGuestlist(@RequestParam String username, String firebaseToken, @RequestBody Guestlist guestlist) throws FirebaseAuthException{
 
-        Guestlist newGuestlist = guestlistService.createGuestlist(guestlist);
+        Guestlist newGuestlist = guestlistService.createGuestlist(username, firebaseToken, guestlist);
 
         return ResponseEntity.ok(newGuestlist);
     }
 
     @GetMapping("/get")
-    public ResponseEntity<List<Guestlist>> getGuestlist(@RequestParam String username){
+    public ResponseEntity<List<Guestlist>> getGuestlist(@RequestParam String username, @PathVariable Long id, @RequestParam String firebaseToken) throws FirebaseAuthException{
 
-       List<Guestlist> guests = guestlistService.getGuestlist(username);
+       List<Guestlist> guest = guestlistService.getGuestlist(username, id, firebaseToken);
 
-        return ResponseEntity.ok(guests);
+        return ResponseEntity.ok(guest);
         
 
     }
 
     @PutMapping("/alter")
-    public ResponseEntity<Guestlist> alterGuestlist(@PathVariable Long id, @RequestBody Guestlist guestlist){
-        Guestlist update = guestlistService.updateGuestlist(id, guestlist);
+    public ResponseEntity<Guestlist> alterGuestlist(@RequestParam String username, @PathVariable Long id, @RequestBody Guestlist guestlist, @RequestParam String firebaseToken) throws FirebaseAuthException{
+        Guestlist update = guestlistService.updateGuestlist(username, id, guestlist, firebaseToken);
         return ResponseEntity.ok(update);
 
     }
