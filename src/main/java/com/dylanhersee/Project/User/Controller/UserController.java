@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.dylanhersee.Project.User.Service.UserService;
 import com.dylanhersee.Project.User.model.User;
+import com.google.firebase.auth.FirebaseAuthException;
+
+
+
 
 
 @RestController
@@ -26,30 +30,24 @@ public class UserController {
    @Autowired
    private UserService userService;
 
-
-    @GetMapping("/health")
-    public String health(){
-        return "API is running";
-    }
-
     @PostMapping("/create")
-    public ResponseEntity<User> createUser(@RequestBody User user, @RequestParam firebaseToken){
+    public ResponseEntity<User> createUser(@RequestBody String username, @RequestParam String firstName, @RequestParam String secondName, @RequestParam String DOB, @RequestParam String email) throws Exception {
 
         User newUser = userService.createUser(
-            user.getUsername(),
-            user.getFirstName(),
-            user.getSecondName(),
-            user.getDOB(),
-            user.getEmail()
+            username,
+            firstName,
+            secondName,
+            DOB,
+            email
         );
 
         return ResponseEntity.ok(newUser);
     }
 
     @GetMapping("/user")
-    public ResponseEntity<User> getUser(@RequestParam String username){
+    public ResponseEntity<User> getUser(@RequestParam String username, @RequestParam String firebaseToken) throws FirebaseAuthException {
 
-        Optional<User> user = userService.getUser(username);
+        Optional<User> user = userService.getUser(username, firebaseToken);
 
         return user.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
         
@@ -57,16 +55,16 @@ public class UserController {
     }
 
     @PutMapping("/alter")
-    public ResponseEntity<User> alterUser(@PathVariable String username, @RequestBody String updateUser){
-        User user = userService.updateUser(username, updateUser);
+    public ResponseEntity<User> alterUser(@RequestParam String username, @RequestBody String updateUser, @PathVariable User currentUser) throws FirebaseAuthException {
+        User user = userService.updateUser(username, updateUser, currentUser);
         return ResponseEntity.ok(user);
 
     }
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id){
-        userService.deleteUser(id);
+    public ResponseEntity<String> deleteUser(@PathVariable Long id, @RequestParam String username, @RequestParam String firebaseToken) throws FirebaseAuthException {
+        userService.deleteUser(id, username, firebaseToken);
 
         return ResponseEntity.ok("user " + id +" has been successfully deleted");
     }

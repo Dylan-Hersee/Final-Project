@@ -26,14 +26,34 @@ public class User {
     private String email;
    
 
-    public User(String username, String firstName, String secondName, String DOB, String email){
-        this.username = username;
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.DOB = DOB;
-        this.email = email;
+   //Setters
+    public User(){
+        
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+    
+    public void setDOB(String DOB) {
+        this.DOB = DOB;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getUsername(){
         return username;
@@ -53,6 +73,10 @@ public class User {
 
     public String getEmail(){
         return email;
+    }
+
+    public Long getId() {
+        return id;
     }
 
  

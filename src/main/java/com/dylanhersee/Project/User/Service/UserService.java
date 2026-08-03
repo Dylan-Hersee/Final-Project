@@ -27,25 +27,24 @@ public class UserService {
 
     }  
 
-     public User createUser(String firebaseToken, String username, String firstName, String secondName, String DOB, String email, String request) throws FirebaseAuthException {
+     public User createUser(String username, String firstName, String secondName, String DOB, String email) throws FirebaseAuthException {
+        String firebaseToken = "";
+        
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
             String firebaseUid = decodedToken.getUid();
 
             try{
-                if(userRepository.findByUsername(firebaseUid) != null){
+                if(userRepository.findByUsername(username) != null){
                     throw new RuntimeException("user already exists");
-                }
-
-                else{
-                    User user = new User(
-                        username, 
-                        firstName, 
-                        secondName,
-                        DOB, 
-                        email
-                    );
+                } else {
+                    User user = new User();
+                    user.setUsername(username);
+                    user.setFirstName(firstName);
+                    user.setSecondName(secondName);
+                    user.setDOB(DOB);
+                    user.setEmail(email);
                     return userRepository.save(user);
-                } 
+                }
             }catch(RuntimeException e){
                 throw new RuntimeException("Error creating User" + e.getMessage());
             }
@@ -73,11 +72,11 @@ public class UserService {
         }catch(FirebaseAuthException e){
             System.out.println("Error verifying ID token: " + e.getMessage());
         }
-      
+      return Optional.empty();
     }
 
 
-    public void deleteUser(String username, String firebaseToken) throws FirebaseAuthException {
+    public void deleteUser(Long id, String username, String firebaseToken) throws FirebaseAuthException {
         
         try{
             FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
