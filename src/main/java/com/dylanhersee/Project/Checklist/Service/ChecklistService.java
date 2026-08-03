@@ -2,6 +2,8 @@ package com.dylanhersee.Project.Checklist.Service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.dylanhersee.Project.Checklist.model.Checklist;
 import com.dylanhersee.Project.Checklist.Repository.ChecklistRepository;
 
@@ -22,6 +24,8 @@ public class ChecklistService {
         if(!firebaseUid.equals(username)){
             throw new RuntimeException("Unauthorised Access");
         }
+
+        return checklistRepository.save(checklist);
     }
 
     public Checklist getChecklist(String username, String firebaseToken, Checklist checklist) throws FirebaseAuthException {

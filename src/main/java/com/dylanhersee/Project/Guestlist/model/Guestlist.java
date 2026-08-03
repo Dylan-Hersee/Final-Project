@@ -22,22 +22,33 @@ public class Guestlist {
     private String eventName;
     private String guestName;
     private String guestEmail;
-    private int guestPhoneNo;
+    private String guestPhoneNo;
     private boolean guestRSVP;
     private boolean rsvpSent;
 
 
-
-    public Guestlist(String username, String eventName, String guestName, String guestEmail, int guestPhoneNo, boolean guestRSVP, boolean rsvpSent) {
+    //Setters
+    public Guestlist(String username, String eventName) {
         this.username = username;
         this.eventName = eventName;
+    }
+    public void setGuestName(String guestName) {
         this.guestName = guestName;
-        this.guestEmail = guestEmail;
-        this.guestPhoneNo = guestPhoneNo;
-        this.guestRSVP = guestRSVP;
-        this.rsvpSent = rsvpSent;
     }
 
+    public void setGuestEmail(String guestEmail) {
+        this.guestEmail = guestEmail;
+    }
+
+    public void setGuestPhoneNo(String guestPhoneNo) {
+        this.guestPhoneNo = guestPhoneNo;
+    }
+
+    public void setGuestRSVP(boolean guestRSVP) {
+        this.guestRSVP = guestRSVP;
+    }
+
+    //Getters
     public String getUsername() {
         return username;
     }
@@ -54,9 +65,10 @@ public class Guestlist {
         return guestEmail;
     }
 
-    public int getGuestPhoneNo() {
+    public String getGuestPhoneNo() {
         return guestPhoneNo;
     }
+    
 
     public boolean isGuestRSVP() {
         return guestRSVP;
