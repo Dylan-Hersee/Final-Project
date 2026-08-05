@@ -3,18 +3,19 @@ package com.dylanhersee.Project.Checklist.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.dylanhersee.Project.Checklist.model.Checklist;
 import com.dylanhersee.Project.Checklist.Repository.ChecklistRepository;
-
+import com.dylanhersee.Project.Checklist.model.Checklist;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 
-
+@Service
 public class ChecklistService {
 
     @Autowired
+    
     private ChecklistRepository checklistRepository;
 
     public Checklist createChecklist(String username, String firebaseToken, Checklist checklist) throws FirebaseAuthException {

@@ -3,14 +3,16 @@ package com.dylanhersee.Project.Guestlist.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.dylanhersee.Project.Guestlist.Repository.GuestlistRepository;
 import com.dylanhersee.Project.Guestlist.model.Guestlist;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 
+
+@Service
 public class GuestlistService {
 
     @Autowired
