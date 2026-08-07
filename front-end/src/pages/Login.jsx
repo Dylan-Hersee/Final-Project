@@ -187,8 +187,7 @@ return(
         {signUpError && <p>{signUpError}</p>}
     </div>
     </div>    
-
-);
+    );
 };
 
 export default Login;
