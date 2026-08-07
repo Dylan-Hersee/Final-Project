@@ -25,7 +25,7 @@ public class ChecklistController {
     @Autowired
     private ChecklistService checklistService;
 
-
+    //Creates User Checklist
     @PostMapping("/create")
     public ResponseEntity<Checklist> createChecklist(@RequestBody Checklist checklist, @RequestParam String username, @RequestParam String eventName, @RequestParam String eventType) throws FirebaseAuthException{
 
@@ -34,6 +34,7 @@ public class ChecklistController {
         return ResponseEntity.ok(newChecklist);
     }
 
+    //Grabs requested checklist
     @GetMapping("/get")
     public ResponseEntity<Checklist> getChecklist(@RequestParam String username, @PathVariable Long id ) throws FirebaseAuthException{
 
@@ -43,14 +44,14 @@ public class ChecklistController {
         
 
     }
-
+    //Edits targeted Checklist
     @PutMapping("/alter")
     public ResponseEntity<Checklist> alterChecklist(@PathVariable Long id, @RequestParam String username, @RequestBody Checklist checklist) throws FirebaseAuthException{
         Checklist update = checklistService.updateChecklist(id, username, username, checklist);
         return ResponseEntity.ok(update);
 
     }
-
+    //Checks whether target is due based on the current date and if the due date is within the next 7 days
     public Boolean isDue(LocalDate dueDate) throws FirebaseAuthException {
         return LocalDate.now().plusDays(7).isAfter(dueDate);
     }

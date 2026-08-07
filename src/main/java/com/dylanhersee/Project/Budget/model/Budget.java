@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 
+
+
 @Entity
 @Table(name = "budget")
 public class Budget {
@@ -60,6 +62,7 @@ public class Budget {
         this.id = id;
     }
 
+
     //Getters
     public String getUsername(){
         return username;
@@ -89,10 +92,6 @@ public class Budget {
         return category;
     }
 
-    public void createBudget() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     public Long getId() {
         return id;
     }
@@ -100,4 +99,6 @@ public class Budget {
     public boolean isEmpty() {
         return false;
     }
+    
 }
+

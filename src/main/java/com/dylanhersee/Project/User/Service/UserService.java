@@ -26,7 +26,7 @@ public class UserService {
         userList = new ArrayList<>();
 
     }  
-
+    //method creates a new user and stores all the users details in the DB
      public User createUser(String username, String firstName, String secondName, String DOB, String email) throws FirebaseAuthException {
         String firebaseToken = "";
         
@@ -51,7 +51,7 @@ public class UserService {
             
     }
     
-
+    //method gets user data 
     public Optional<User> getUser(String username, String firebaseToken) throws FirebaseAuthException {
         try{
             FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
@@ -75,7 +75,7 @@ public class UserService {
       return Optional.empty();
     }
 
-
+        //method deletes users data
     public void deleteUser(Long id, String username, String firebaseToken) throws FirebaseAuthException {
         
         try{
@@ -99,7 +99,7 @@ public class UserService {
                 throw new RuntimeException("User Not Found" + e.getMessage());
             }
     }
-
+    //updates user data
     public User updateUser(String username, String firebaseToken, User updateUser) throws FirebaseAuthException {
         try{
       FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);

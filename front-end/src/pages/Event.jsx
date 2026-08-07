@@ -1,86 +1,107 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
+import { useAuth } from "../context/AuthContext";
+import { apiRequest } from "../api";
+import "./Dashboard.css";
 
-const Event = () => {
+const Dashboard = () => {
+  const nav = useNavigate();
+  const { user } = useAuth();
 
-    return (
-        <>
-            <div>
-                <div className="Due"> Event Due Date</div>
-                <div className="progressBar"></div>
+  const [events, setEvents] = useState([]);
+  const [eventName, setEventName] = useState("");
+  const [eventType, setEventType] = useState("");
+  const [budget, setBudget] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [error, setError] = useState("");
 
-                <div className="eventdetails">
-                    <h1>Event Details</h1>
-                    <h2 className="nameHead">Event Name</h2>
-                    <p className="eventName"></p><button className="change"></button>
+  useEffect(() => {
+    const loadEvents = async () => {
+      if (!user) return;
+      try {
+        const token = await user.getIdToken();
+        const data = await apiRequest(`/event/get?username=${user.uid}`, "GET", token);
+        setEvents(data);
+      } catch (err) {
+        console.error("Failed to load events:", err);
+      }
+    };
+    loadEvents();
+  }, [user]);
 
-                    <h2 className="eventType">Event Name</h2>
-                    <p className="eventType"></p><button className="change"></button>
-                </div>
-                <div className="calender">
-                    <h2>Due Date</h2>
-                    <div className="month">
-                        <ul>
-                            <li className="prev">&#10094;</li>
-                            <li className="next">&#10095;</li>
-                            <li>
-                                August<br />
-                                <span style={{ fontSize: '18px' }}>2021</span>
-                            </li>
-                        </ul>
-                    </div>
+  const handleLogout = async () => {
+    await signOut(auth);
+    nav('/');
+  };
 
-                    <ul className="weekdays">
-                        <li>Mo</li>
-                        <li>Tu</li>
-                        <li>We</li>
-                        <li>Th</li>
-                        <li>Fr</li>
-                        <li>Sa</li>
-                        <li>Su</li>
-                    </ul>
+  const handleProfile = () => nav('/profile');
 
-                    <ul className="days">
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                        <li>4</li>
-                        <li>5</li>
-                        <li>6</li>
-                        <li>7</li>
-                        <li>8</li>
-                        <li>9</li>
-                        <li><span className="active">10</span></li>
-                        <li>11</li>
-                        <li>12</li>
-                        <li>13</li>
-                        <li>14</li>
-                        <li>15</li>
-                        <li>16</li>
-                        <li>17</li>
-                        <li>18</li>
-                        <li>19</li>
-                        <li>20</li>
-                        <li>21</li>
-                        <li>22</li>
-                        <li>23</li>
-                        <li>24</li>
-                        <li>25</li>
-                        <li>26</li>
-                        <li>27</li>
-                        <li>28</li>
-                        <li>29</li>
-                        <li>30</li>
-                        <li>31</li>
-                    </ul>
-                </div>
+  const handleCreateEvent = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!eventName || !eventType || !budget || !eventDate) {
+      setError("Please fill in all fields");
+      return;
+    }
+
+    try {
+      const token = await user.getIdToken();
+      const newEvent = await apiRequest("/event/create", "POST", token, {
+        username: user.uid,
+        eventName,
+        eventType,
+        budget,
+        eventDate
+      });
+
+      setEvents([...events, newEvent]);
+      setEventName("");
+      setEventType("");
+      setBudget("");
+      setEventDate("");
+
+    } catch (err) {
+      setError("Failed to create event: " + err.message);
+    }
+  };
+
+  return (
+    <div>
+      <h1>Simple Events</h1>
+      <ul>
+        <li>Simple Events</li>
+        <li onClick={handleProfile}>Manage Profile</li>
+        <li onClick={handleLogout}>Logout</li>
+      </ul>
+
+      <div className="mainEvents">
+        <div className="eventDesc"></div>
+        <div className="eventCard">
+          {events.map((event) => (
+            <div key={event.id} onClick={() => nav(`/event/${event.id}`)}>
+              <h3>{event.eventName}</h3>
+              <p>{event.eventType}</p>
             </div>
-            <div className="checklist"></div>
-            <div className="guestlist"></div>
-        </>
-    );
-}
+          ))}
+        </div>
+      </div>
 
-export default Event;
+      <div className="createEvent">
+        <form onSubmit={handleCreateEvent}>
+          <input type="text" placeholder="Event Name" value={eventName} onChange={(e) => setEventName(e.target.value)} />
+          <input type="text" placeholder="Event Type" value={eventType} onChange={(e) => setEventType(e.target.value)} />
+          <input type="text" placeholder="Budget" value={budget} onChange={(e) => setBudget(e.target.value)} />
+          <input type="date" value={eventDate} onChange={(e) => setEventDate(e.target.value)} />
+          <br /><br />
+          <button type="submit">Create Event</button>
+        </form>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;

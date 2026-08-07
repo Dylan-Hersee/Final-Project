@@ -13,7 +13,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 
-
+//using a Crud Runner to act as the communication point between my application and my firebase auth
 @Configuration
 public class CRUDRunner {
 
@@ -26,12 +26,15 @@ public class CRUDRunner {
         FileInputStream serviceAccount =
         new FileInputStream(file.getAbsolutePath());
 
+        //this firebase variable is used to set the user credentials from firebase  
         FirebaseOptions options = new FirebaseOptions.Builder()
         .setCredentials(GoogleCredentials.fromStream(serviceAccount))
         .build();
 
+        //intialises the credentials
         FirebaseApp.initializeApp(options);
 
+        //runs application 
         SpringApplication.run(CRUDRunner.class, args);
 
        

@@ -18,6 +18,7 @@ public class ChecklistService {
     
     private ChecklistRepository checklistRepository;
 
+    //method creates users new checklist
     public Checklist createChecklist(String username, String firebaseToken, Checklist checklist) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
        String firebaseUid = decodedToken.getUid();
@@ -28,7 +29,7 @@ public class ChecklistService {
 
         return checklistRepository.save(checklist);
     }
-
+    //method used to get targeted checklist using customers id
     public Checklist getChecklist(String username, String firebaseToken, Long id) throws FirebaseAuthException {
         try{
             FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
@@ -45,7 +46,7 @@ public class ChecklistService {
             throw new RuntimeException("User Not Found" + e.getMessage());
         }
     }
-
+    //methods returns a list of event checklist belonging to current username
     public List<Checklist> getAllChecklist(String username, String firebaseToken) throws FirebaseAuthException {
         try{
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
@@ -68,6 +69,8 @@ public class ChecklistService {
         }
         
     }
+
+    //method updates checklist allowing for user to add more targets and update the dates of specific targets
 
     public Checklist updateChecklist(Long id, String username, String firebaseToken, Checklist checklist) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);

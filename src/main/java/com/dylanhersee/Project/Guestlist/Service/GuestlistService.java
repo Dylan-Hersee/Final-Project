@@ -18,6 +18,7 @@ public class GuestlistService {
     @Autowired
     private GuestlistRepository guestlistRepository;
 
+    //method saves new guestlist
     public Guestlist createGuestlist(String username, String firebaseToken, Guestlist guestlist) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
        String firebaseUid = decodedToken.getUid();
@@ -29,6 +30,7 @@ public class GuestlistService {
         return guestlistRepository.save(guestlist);
     }
 
+    //method gets current list of guests 
     public List<Guestlist> getGuestlist(String username, Long id, String firebaseToken) throws FirebaseAuthException{
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
        String firebaseUid = decodedToken.getUid();
@@ -46,6 +48,7 @@ public class GuestlistService {
         
     }
 
+    //method used to update current guestlist
     public Guestlist updateGuestlist(String username, Long id, Guestlist guestlist, String firebaseToken) throws FirebaseAuthException{
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
        String firebaseUid = decodedToken.getUid();
@@ -56,6 +59,7 @@ public class GuestlistService {
 
         Guestlist currentGuest = guestlistRepository.findById(id).orElseThrow(() -> new RuntimeException("Guest not found"));
 
+        // if statements used to get the update guest data and save it 
         if(guestlist.getGuestName() != null){
             currentGuest.setGuestName(guestlist.getGuestName());
         }
@@ -66,11 +70,13 @@ public class GuestlistService {
             guestlist.setGuestPhoneNo(guestlist.getGuestPhoneNo());
         }
 
+        //saves the updated data to the DB
         return guestlistRepository.save(currentGuest);
         
     }
 
 
+//method deletes guest from the DB 
     public void removeGuest(String username, Long id, Guestlist guestlist, String firebaseToken) throws FirebaseAuthException{
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
        String firebaseUid = decodedToken.getUid();
@@ -83,7 +89,8 @@ public class GuestlistService {
 
         guestlistRepository.deleteById(currentGuest.getId());
     }
-    
+
+    //checks whether or not the guests have replied and if we sent the RVSP
     public Boolean checkRSVP(String username, Long id, Guestlist guestlist, String firebaseToken) throws FirebaseAuthException{
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseToken);
        String firebaseUid = decodedToken.getUid();

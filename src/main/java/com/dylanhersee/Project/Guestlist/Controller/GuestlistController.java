@@ -24,6 +24,7 @@ public class GuestlistController {
     @Autowired
     private GuestlistService guestlistService;
     
+    //Creates Guestlist
     @PostMapping("/create")
     public ResponseEntity<Guestlist> createGuestlist(@RequestParam String username, String firebaseToken, @RequestBody Guestlist guestlist) throws FirebaseAuthException{
 
@@ -32,6 +33,7 @@ public class GuestlistController {
         return ResponseEntity.ok(newGuestlist);
     }
 
+    //Grabs Guestlist
     @GetMapping("/get")
     public ResponseEntity<List<Guestlist>> getGuestlist(@RequestParam String username, @PathVariable Long id, @RequestParam String firebaseToken) throws FirebaseAuthException{
 
@@ -42,6 +44,7 @@ public class GuestlistController {
 
     }
 
+    //Edits Guestlist
     @PutMapping("/alter")
     public ResponseEntity<Guestlist> alterGuestlist(@RequestParam String username, @PathVariable Long id, @RequestBody Guestlist guestlist, @RequestParam String firebaseToken) throws FirebaseAuthException{
         Guestlist update = guestlistService.updateGuestlist(username, id, guestlist, firebaseToken);
